@@ -5,6 +5,7 @@
 - Inline вызов бота `@nickname <share link>`
 - Поддерживает TikTok и Instagram* Reels
 - Работает в обычном режиме, достаточно просто отправить ссылку на видео
+- Автоматическое сжатие видео до 50 МБ при необходимости
 
 ## Инструкция по запуску
 
@@ -15,8 +16,9 @@
 5. Создать приватный канал (нужен для корректной работы Inline режима)
 6. Через бота [@userinfobot](https://t.me/userinfobot) получить ID канала
 7. Вставить полученный ID в .env
+   1.  При необходимости изменить уровень логгирования в `.env`. Доступные уровни: `DEBUG`, `INFO`, `WARNING`, `ERROR`
 8. Скачать расширение [Get cookies.txt LOCALLY](https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc)
-9. Перейти на сайт Instagram*, открыть расширение и нажать Export
+9.  Перейти на сайт Instagram*, открыть расширение и нажать Export
 10. Перенести полученный файл в папку с проектом и переименовать его в `cookies.txt`
 11. Запустить бота командой `docker compose up -d`
 
