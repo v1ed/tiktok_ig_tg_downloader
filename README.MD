@@ -1,5 +1,8 @@
 # Inline бот для отправки видео с TikTok/Instagram* Reels
 
+Для автоматической замены сообщения «Видео обрабатывается» готовым видео включите
+inline feedback через `/setinlinefeedback` в @BotFather и выберите `100%`.
+
 ## Функционал
 
 - Inline вызов бота `@nickname <share link>`
