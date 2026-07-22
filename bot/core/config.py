@@ -9,6 +9,7 @@ class Config:
     bot_token: str = os.getenv("BOT_TOKEN")
     channel_id: int = int(os.getenv("CHANNEL_ID"))
     download_path: str = "downloads"
+    log_level: str = os.getenv("LOG_LEVEL", "INFO").upper()
 
 config = Config()
 

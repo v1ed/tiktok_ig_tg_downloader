@@ -7,6 +7,7 @@ import re
 from typing import Optional, Tuple
 from bot.core.config import config
 
+logger = logging.getLogger(__name__)
 
 INSTAGRAM_PATTERN: re.Pattern[str] = re.compile(
     r"^https?://(www\.)?instagram\.com/reel/[\w\-]+"
@@ -39,10 +40,12 @@ class VideoDownloader:
 
     async def download_video(self, url: str) -> Tuple[Optional[str], float]:
         loop = asyncio.get_event_loop()
+        logger.info("Downloading video")
         try:
             with yt_dlp.YoutubeDL(self.ydl_opts) as ydl:
                 info = await loop.run_in_executor(None, lambda: ydl.extract_info(url, download=True))
                 if not info:
+                    logger.warning("Downloader returned no video information")
                     return None, 0
                 
                 path = ydl.prepare_filename(info)
@@ -51,9 +54,10 @@ class VideoDownloader:
                 
                 # Получаем размер файла в мегабайтах
                 file_size = os.path.getsize(path) / (1024 * 1024)
+                logger.info("Video downloaded: path=%s size=%.2f MB", path, file_size)
                 return path, file_size
-        except Exception as e:
-            logging.error(f"YT-DLP Error: {e}")
+        except Exception:
+            logger.exception("Video download failed")
             return None, 0
     
     @staticmethod
@@ -62,9 +66,11 @@ class VideoDownloader:
             return True
         if TIKTOK_PATTERN.match(url):
             return True
+        logger.debug("Unsupported video URL")
         return False
 
     @staticmethod
     def remove_file(file_path: str) -> None:
         if os.path.exists(file_path):
             os.remove(file_path)
+            logger.debug("Removed file: %s", file_path)

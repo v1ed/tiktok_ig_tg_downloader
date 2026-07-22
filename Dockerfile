@@ -1,15 +1,14 @@
-FROM python:3.10-slim
+FROM python:3.10-alpine
 
 # Установка ffmpeg обязательна для TikTok/Instagram
-RUN apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache ffmpeg
 
 WORKDIR /app
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
-# Явно копируем куки, если их нет в основном копировании
-COPY cookies.txt /app/cookies.txt
+COPY bot ./bot
+COPY cookies.txt .
 
 CMD ["python", "-m", "bot.main"]
